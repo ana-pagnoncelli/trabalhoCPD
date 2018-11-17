@@ -7,7 +7,7 @@ class HasMegaEvolution:
         """
             Attribute:  what is that?  (type).
 
-            id_pokemon: Id of the IsLgendary, but at the same time of an object of the class Pokemon.
+            id_pokemon: Id of the HasMegaEvolution, but at the same time of an object of the class Pokemon.
             pokemon_name: The name of an object Pokemon, represented for id_pokemon.
         """
         self.id_pokemon = id_pokemon

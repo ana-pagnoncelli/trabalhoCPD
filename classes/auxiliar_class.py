@@ -1,18 +1,23 @@
 """
-Pokemon:
-    Contains all the details of a pokemon.
+AuxiliarClass:
+    The only objective of this class is to contain all the attributes that are read
+    in the file, to clean the code. (Really looks like the class Pokemon, but without
+    the many to many relation).
 """
 
 
-class Pokemon:
-    def __init__(self, id, name, total, hp, attack, defense, sp_attack, sp_defense, speed,
-                generation, is_legendary, color, has_gender, pr_male, has_mega_evolution,
-                height, weight, catch_rate, body_style, id_pokemon_type):
+class AuxiliarClass:
+    def __init__(self, id, name, type_1, type_2, total, hp, attack, defense, sp_attack,
+                sp_defense, speed, generation, is_legendary, color, has_gender, pr_male,
+                has_mega_evolution, egg_group_1, egg_group_2, height, weight, catch_rate,
+                body_style):
         """
             Attribute: what is that? (type).
 
             id: Id of the Pokemon (Integer).
             name: Name of the Pokemon (string).
+            type_1:
+            type_2:
             total: Total points of the Pokemon (Integer).
             hp: Total life of the Pokemon (Integer).
             attack: Total attack of the Pokemon (Integer).
@@ -25,19 +30,18 @@ class Pokemon:
             color: The color of the Pokemon (string).
             has_gender: Has gender or not (boolean).
             pr_male: Percentege of being male (float).
+            egg_group_1:
+            egg_group_2:
             has_mega_evolution: Has mega evolution or not (boolean).
             height: The height of the Pokemon (float).
             weight: The weight of the Pokemon (float).
             catch_rate: The catch rate of the Pokemon (float).
             body_style: The body_style of the Pokemon (string).
-
-            id_pokemon_type: Representing the fields Egg_Group_1, Egg_Group_2, Type_1 and Type_2,
-            this field has an array with ids. This ids come from objects of the class pokemon_type,
-            that makes a relation between the objects of the class Pokemon and objects of the class type.
-            (array of integers).
         """
         self.id = id
         self.name = name
+        self.type_1 = type_1
+        self.type_2 = type_2
         self.total = total
         self.hp = hp
         self.attack = attack
@@ -50,14 +54,14 @@ class Pokemon:
         self.color = color
         self.has_gender = has_gender
         self.pr_male = pr_male
+        self.egg_group_1 = egg_group_1
+        self.egg_group_2 = egg_group_2
         self.has_mega_evolution = has_mega_evolution
         self.height = height
         self.weight = weight
         self.catch_rate = catch_rate
         self.body_style = body_style
-        self.id_pokemon_type = id_pokemon_type
 
-        #prints the class
     def __repr__(self):
         return "\nId: {id}  \nName: {name} \nTotal: {total} \nHp: {hp} \nAttack: {attack} \
                 \nDefense: {defense} \nAttack Speed: {sp_attack} \nDefense Speed:{sp_defense}\
