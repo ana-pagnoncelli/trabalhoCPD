@@ -4,7 +4,7 @@
 """
 
 class PokemonType:
-    def __init__ (self, id, id_pokemon, id_type):
+    def __init__ (self, id, id_pokemon, id_type, relation):
         """
             Attribute:  what is that?  (type).
 
@@ -15,5 +15,8 @@ class PokemonType:
         """
         self.id = id
         self.id_pokemon = id_pokemon
-        id.id_type = id_type
-        id.relation = relation
+        self.id_type = id_type
+        self.relation = relation
+
+    def __repr__(self):
+        return " /id: " + str(self.id) + " /id poke: " + str(self.id_pokemon) + " /id type: " + str(self.id_type) + " /relation: " + self.relation + "\n"

@@ -9,7 +9,7 @@ AuxiliarClass:
 class AuxiliarClass:
     def __init__(self, id, name, type_1, type_2, total, hp, attack, defense, sp_attack,
                 sp_defense, speed, generation, is_legendary, color, has_gender, pr_male,
-                has_mega_evolution, egg_group_1, egg_group_2, height, weight, catch_rate,
+                egg_group_1, egg_group_2, has_mega_evolution, height, weight, catch_rate,
                 body_style):
         """
             Attribute: what is that? (type).
