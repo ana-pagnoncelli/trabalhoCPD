@@ -18,4 +18,4 @@ class Type:
         self.id_pokemon_type = id_pokemon_type
 
     def __repr__(self):
-        return "id " + str(self.id) + " name " + self.name
+        return "id " + str(self.id) + " name " + self.name + "array: " + str(self.id_pokemon_type)

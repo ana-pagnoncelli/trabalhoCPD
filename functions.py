@@ -5,21 +5,21 @@ def format_string(string):
     return "{:<50}".format(string.lower())
 
 #returns the list_objs_type atualized and the obj_type
-def assing_type(type_name, list_objs_type):
+def create_type(type_name, list_objs_type):
     id = 1 #save the id number
     #serch in the saved objects if this type_name is already registered
     for obj_type in list_objs_type:
         print(obj_type)
         #if it finds a record with the same name, then it's registred and only takes the existent id
         if type_name == obj_type.name:
-            return obj_type.id, list_objs_type
+            return obj_type, list_objs_type
         id = id + 1
     #else a new obj is created with the type_name and added to the list.
-    list_of_ids = [0] * 200
+    list_of_ids = [0] * 90
     type = Type(id, type_name, list_of_ids)
     list_objs_type.append(type)
 
-    return type.id, list_objs_type
+    return type, list_objs_type
 
 def assing_attributes_auxiliar_class(wordList):
     id = int(wordList[0])
@@ -47,12 +47,12 @@ def assing_attributes_auxiliar_class(wordList):
         pr_male = wordList[15]
     else:
         pr_male = 0
-    if wordList[16]:
+    if wordList[16] and wordList[16] != 'Undiscovered':
         egg_group_1 = format_string(wordList[16])
     else:
         egg_group_1 = None
 
-    if wordList[17]:
+    if wordList[17] and wordList[17] != 'Undiscovered':
         egg_group_2 = format_string(wordList[17])
     else:
         egg_group_2 = None
@@ -71,7 +71,7 @@ def assing_attributes_auxiliar_class(wordList):
 
     return aux_class
 
-def assing_pokemon(aux_class, list_objs_pokemon):
+def create_pokemon(aux_class, list_objs_pokemon):
     type_array = [0]*4
     pokemon = Pokemon(aux_class.id, aux_class.name, aux_class.total, aux_class.hp,
                         aux_class.attack, aux_class.defense, aux_class.sp_attack,
@@ -80,15 +80,68 @@ def assing_pokemon(aux_class, list_objs_pokemon):
                         aux_class.pr_male, aux_class.has_mega_evolution, aux_class.height,
                         aux_class.weight, aux_class.catch_rate, aux_class.body_style, type_array)
 
-    print(pokemon)
+    # print(pokemon)
     list_objs_pokemon.append(pokemon)
-    return pokemon.id, list_objs_pokemon
+    return pokemon, list_objs_pokemon
 
-def assing_pokemon_type(id_pokemon_type, pokemon_id, type_id, list_objs_pokemon_type, relation):
+def create_pokemon_type(id_pokemon_type, pokemon_id, type_id, list_objs_pokemon_type, list_objs_type, relation):
     pokemon_type = PokemonType(id_pokemon_type, pokemon_id, type_id, relation)
     list_objs_pokemon_type.append(pokemon_type)
     # print(pokemon_type)
     return pokemon_type, list_objs_pokemon_type
+
+def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type, list_objs_type):
+    new_type, list_objs_type = create_type(aux_class.type_1, list_objs_type)
+    new_pokemon_type, list_objs_pokemon_type = create_pokemon_type(pokemon_type_id,
+                                                                    pokemon.id,
+                                                                    new_type.id,
+                                                                    list_objs_pokemon_type,
+                                                                    list_objs_type,
+                                                                    'type')
+    pokemon.id_pokemon_type[0] = new_pokemon_type.id
+    pokemon_type_id = pokemon_type_id + 1
+    list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
+    list_objs_type[new_type.id-1].id_pokemon_type[1:]
+
+    if aux_class.type_2:
+        new_type, list_objs_type = create_type(aux_class.type_2, list_objs_type)
+        new_pokemon_type, list_objs_pokemon_type = create_pokemon_type(pokemon_type_id,
+                                                                        pokemon.id,
+                                                                        new_type.id,
+                                                                        list_objs_pokemon_type,
+                                                                        list_objs_type,
+                                                                        'type2')
+        pokemon.id_pokemon_type[1] = new_pokemon_type.id
+        list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
+        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        pokemon_type_id = pokemon_type_id + 1
+    if aux_class.egg_group_1:
+        new_type, list_objs_type = create_type(aux_class.egg_group_1, list_objs_type)
+        new_pokemon_type, list_objs_pokemon_type = create_pokemon_type(pokemon_type_id,
+                                                                        pokemon.id,
+                                                                        new_type.id,
+                                                                        list_objs_pokemon_type,
+                                                                        list_objs_type,
+                                                                        'egg_group_1')
+        pokemon.id_pokemon_type[2] = new_pokemon_type.id
+        list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
+        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        pokemon_type_id = pokemon_type_id + 1
+    if aux_class.egg_group_2:
+        new_type, list_objs_type = create_type(aux_class.egg_group_2, list_objs_type)
+        new_pokemon_type, list_objs_pokemon_type = create_pokemon_type(pokemon_type_id,
+                                                                        pokemon.id,
+                                                                        new_type.id,
+                                                                        list_objs_pokemon_type,
+                                                                        list_objs_type,
+                                                                        'egg_group_2')
+        pokemon.id_pokemon_type[3] = new_pokemon_type.id
+        list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
+        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        pokemon_type_id = pokemon_type_id + 1
+
+    return pokemon, list_objs_pokemon_type, list_objs_type, pokemon_type_id
+
 
 def save_data_file():
     list_objs_type = []
@@ -100,14 +153,16 @@ def save_data_file():
             wordList = line.split(',')
             if wordList[0] != 'Number':
                 auxiliar_class = assing_attributes_auxiliar_class(wordList)
-                type_id, list_objs_type = assing_type(auxiliar_class.type_1, list_objs_type)
-                pokemon_id, list_objs_pokemon = assing_pokemon(auxiliar_class, list_objs_pokemon)
-                new_pokemon_type, list_objs_pokemon_type = assing_pokemon_type(pokemon_type_id,
-                                                                                pokemon_id,
-                                                                                type_id,
-                                                                                list_objs_pokemon_type,
-                                                                                'type')
-                pokemon_type_id = pokemon_type_id + 1
+
+                new_pokemon, list_objs_pokemon = create_pokemon(auxiliar_class, list_objs_pokemon)
+                pokemon, list_objs_pokemon_type, list_objs_type, pokemon_type_id = assing_all_types(pokemon_type_id,
+                                                                                                            new_pokemon,
+                                                                                                            auxiliar_class,
+                                                                                                            list_objs_pokemon_type,
+                                                                                                            list_objs_type)
+
                 # print(list_objs_pokemon_type)
         print(list_objs_pokemon_type)
         print(list_objs_type)
+        # print('tamm')
+        # print(pokemon.id_pokemon_type)
