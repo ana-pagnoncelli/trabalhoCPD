@@ -9,7 +9,6 @@ def create_type(type_name, list_objs_type):
     id = 1 #save the id number
     #serch in the saved objects if this type_name is already registered
     for obj_type in list_objs_type:
-        print(obj_type)
         #if it finds a record with the same name, then it's registred and only takes the existent id
         if type_name == obj_type.name:
             return obj_type, list_objs_type
@@ -80,14 +79,11 @@ def create_pokemon(aux_class, list_objs_pokemon):
                         aux_class.pr_male, aux_class.has_mega_evolution, aux_class.height,
                         aux_class.weight, aux_class.catch_rate, aux_class.body_style, type_array)
 
-    # print(pokemon)
-    list_objs_pokemon.append(pokemon)
     return pokemon, list_objs_pokemon
 
 def create_pokemon_type(id_pokemon_type, pokemon_id, type_id, list_objs_pokemon_type, list_objs_type, relation):
     pokemon_type = PokemonType(id_pokemon_type, pokemon_id, type_id, relation)
     list_objs_pokemon_type.append(pokemon_type)
-    # print(pokemon_type)
     return pokemon_type, list_objs_pokemon_type
 
 def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type, list_objs_type):
@@ -161,8 +157,7 @@ def save_data_file():
                                                                                                             list_objs_pokemon_type,
                                                                                                             list_objs_type)
 
-                # print(list_objs_pokemon_type)
-        print(list_objs_pokemon_type)
-        print(list_objs_type)
-        # print('tamm')
-        # print(pokemon.id_pokemon_type)
+                list_objs_pokemon.append(pokemon)
+        # print(list_objs_pokemon_type)
+        # print(list_objs_type)
+        # print(list_objs_pokemon)
