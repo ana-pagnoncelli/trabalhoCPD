@@ -138,11 +138,37 @@ def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type
 
     return pokemon, list_objs_pokemon_type, list_objs_type, pokemon_type_id
 
+def create_has_gender(pokemon_id, pokemon_name, list_objs_has_gender):
+    new_has_gender = HasGender(pokemon_id, pokemon_name)
+    list_objs_has_gender.append(new_has_gender)
+    return list_objs_has_gender
+
+def create_has_mega_evolution(pokemon_id, pokemon_name, list_objs_has_mega_evolution):
+    new_has_mega_evolution = HasMegaEvolution(pokemon_id, pokemon_name)
+    list_objs_has_mega_evolution.append(new_has_mega_evolution)
+    return list_objs_has_mega_evolution
+
+def create_is_legendary(pokemon_id, pokemon_name, list_objs_is_legendary):
+    new_is_legendary = IsLgendary(pokemon_id, pokemon_name)
+    list_objs_is_legendary.append(new_is_legendary)
+    return list_objs_is_legendary
+
+def assing_all_boolean_tables(aux_class, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution):
+    if aux_class.has_gender == 'True':
+        list_objs_has_gender = create_has_gender(aux_class.id, aux_class.name, list_objs_has_gender)
+    if aux_class.is_legendary == 'True':
+        list_objs_is_legendary = create_is_legendary(aux_class.id, aux_class.name, list_objs_is_legendary)
+    if aux_class.has_mega_evolution == 'True':
+        list_objs_has_mega_evolution = create_has_mega_evolution(aux_class.id, aux_class.name, list_objs_has_mega_evolution)
+    return list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution
 
 def save_data_file():
     list_objs_type = []
     list_objs_pokemon = []
     list_objs_pokemon_type = []
+    list_objs_has_gender = []
+    list_objs_is_legendary = []
+    list_objs_has_mega_evolution = []
     pokemon_type_id = 1
     with open("data/pokemons.csv") as file:
         for line in file:
@@ -157,7 +183,9 @@ def save_data_file():
                                                                                                             list_objs_pokemon_type,
                                                                                                             list_objs_type)
 
+                list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution = assing_all_boolean_tables(auxiliar_class,
+                                                                                                                        list_objs_has_gender,
+                                                                                                                        list_objs_is_legendary,
+                                                                                                                        list_objs_has_mega_evolution)
                 list_objs_pokemon.append(pokemon)
-        # print(list_objs_pokemon_type)
-        # print(list_objs_type)
-        # print(list_objs_pokemon)
+    return list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution

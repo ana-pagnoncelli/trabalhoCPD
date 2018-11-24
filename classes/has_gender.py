@@ -12,3 +12,6 @@ class HasGender:
         """
         self.id_pokemon = id_pokemon
         self.pokemon_name = pokemon_name
+
+    def __repr__(self):
+        return " /id: " + str(self.id_pokemon) + " /id poke: " + self.pokemon_name + "\n"

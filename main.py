@@ -1,4 +1,5 @@
 from functions import *
 
 if __name__ == "__main__":
-    save_data_file()
+    list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution = save_data_file()
+    print(list_objs_has_gender)
