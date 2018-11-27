@@ -1,4 +1,5 @@
 import re
+import pickle
 from classes import *
 
 def format_string(string):
@@ -189,3 +190,23 @@ def save_data_file():
                                                                                                                         list_objs_has_mega_evolution)
                 list_objs_pokemon.append(pokemon)
     return list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution
+ 
+def opening_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution):
+    with open("list_objs_pokemon_type.bin","ab") as file:
+        for obj in list_objs_pokemon_type:
+             pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_type.bin","ab") as file:
+        for obj in list_objs_type:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_pokemon.bin","ab") as file:
+        for obj in list_objs_pokemon:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_has_gender.bin","ab") as file:
+        for obj in list_objs_has_gender: 
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_is_legendary.bin","ab") as file:
+        for obj in list_objs_is_legendary:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_has_mega_evolution.bin", "ab") as file:
+        for obj in list_objs_has_mega_evolution:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
