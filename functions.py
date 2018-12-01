@@ -1,9 +1,23 @@
 import re
+import pickle
 from classes import *
+import sys
+import os
+import struct
+import encodings, os
+from encodings import aliases
+import base64
+#sys.getsizeof(x) to know the size of your objects
 
 def format_string(string):
+    last_caractere = ord(string[-1:])
+    if last_caractere == 9792:
+        string = string[:-1]
+        string =  string + 'A'
+    if last_caractere == 9794:
+        string = string[:-1]
+        string = string + 'O'
     return "{:<50}".format(string.lower())
-
 #returns the list_objs_type atualized and the obj_type
 def create_type(type_name, list_objs_type):
     id = 1 #save the id number
@@ -189,3 +203,55 @@ def save_data_file():
                                                                                                                         list_objs_has_mega_evolution)
                 list_objs_pokemon.append(pokemon)
     return list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution
+
+def creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution):
+    with open("list_objs_pokemon_type.bin","ab") as file:
+        for obj in list_objs_pokemon_type:
+             pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_type.bin","ab") as file:
+        for obj in list_objs_type:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_pokemon.bin","ab") as file:
+        for obj in list_objs_pokemon:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_is_legendary.bin","ab") as file:
+        for obj in list_objs_is_legendary:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+    with open("list_objs_has_mega_evolution.bin", "ab") as file:
+        for obj in list_objs_has_mega_evolution:
+            pickle.dump(obj, file, pickle.HIGHEST_PROTOCOL)
+
+    with open("list_objs_has_gender.bin","ab") as file:
+        for obj in list_objs_has_gender:
+            file.write(struct.pack("i", obj.id_pokemon))
+            file.write(obj.pokemon_name.encode("utf-8"))
+
+
+def read_arq_has_gender(arq):
+    with open (arq, 'rb') as file:
+        file.seek(54*80)
+        my_number_back = struct.unpack('i', file.read(4))[0]
+        print(my_number_back)
+        text = ''
+        i = 0
+        while i < 50:
+            temp = struct.unpack('c', file.read(1))[0]
+            temp = temp.decode('utf-8')
+            text = text + temp
+            i += 1
+        print(text)
+
+
+# def read_arq_pokemons():
+#     with open ('list_objs_pokemon.bin', 'rb') as file:
+#         file.seek(54*80)
+#         my_number_back = struct.unpack('i', file.read(4))[0]
+#         print(my_number_back)
+#         text = ''
+#         i = 0
+#         while i < 50:
+#             temp = struct.unpack('c', file.read(1))[0]
+#             temp = temp.decode('utf-8')
+#             text = text + temp
+#             i += 1
+#         print(text)
