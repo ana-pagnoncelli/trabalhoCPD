@@ -1,6 +1,6 @@
 import re
 import pickle
-from classes import *
+from src.classes import *
 import sys
 import os
 import struct
