@@ -27,7 +27,7 @@ def create_type(type_name, list_objs_type):
             return obj_type, list_objs_type
         id = id + 1
     #else a new obj is created with the type_name and added to the list.
-    list_of_ids = [0] * 90
+    list_of_ids = [0] * 250 
     type = Type(id, type_name, list_of_ids)
     list_objs_type.append(type)
 
@@ -119,11 +119,11 @@ def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type
                                                                     new_type.id,
                                                                     list_objs_pokemon_type,
                                                                     list_objs_type,
-                                                                    'type')
+                                                                    1)
     pokemon.id_pokemon_type[0] = int(new_pokemon_type.id)
     pokemon_type_id = pokemon_type_id + 1
     list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
-    list_objs_type[new_type.id-1].id_pokemon_type[1:]
+    list_objs_type[new_type.id-1].id_pokemon_type.pop(0)
 
     if aux_class.type_2:
         new_type, list_objs_type = create_type(aux_class.type_2, list_objs_type)
@@ -132,10 +132,10 @@ def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type
                                                                         new_type.id,
                                                                         list_objs_pokemon_type,
                                                                         list_objs_type,
-                                                                        'type2')
+                                                                        1)
         pokemon.id_pokemon_type[1] = int(new_pokemon_type.id)
         list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
-        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        list_objs_type[new_type.id-1].id_pokemon_type.pop(0)
         pokemon_type_id = pokemon_type_id + 1
     if aux_class.egg_group_1:
         new_type, list_objs_type = create_type(aux_class.egg_group_1, list_objs_type)
@@ -144,10 +144,10 @@ def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type
                                                                         new_type.id,
                                                                         list_objs_pokemon_type,
                                                                         list_objs_type,
-                                                                        'egg_group_1')
+                                                                        0)
         pokemon.id_pokemon_type[2] = int(new_pokemon_type.id)
         list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
-        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        list_objs_type[new_type.id-1].id_pokemon_type.pop(0)
         pokemon_type_id = pokemon_type_id + 1
     if aux_class.egg_group_2:
         new_type, list_objs_type = create_type(aux_class.egg_group_2, list_objs_type)
@@ -156,10 +156,10 @@ def assing_all_types(pokemon_type_id, pokemon, aux_class, list_objs_pokemon_type
                                                                         new_type.id,
                                                                         list_objs_pokemon_type,
                                                                         list_objs_type,
-                                                                        'egg_group_2')
+                                                                        0)
         pokemon.id_pokemon_type[3] = int(new_pokemon_type.id)
         list_objs_type[new_type.id-1].id_pokemon_type.append(new_pokemon_type.id)
-        list_objs_type[new_type.id-1].id_pokemon_type[1:]
+        list_objs_type[new_type.id-1].id_pokemon_type.pop(0)
         pokemon_type_id = pokemon_type_id + 1
 
     return pokemon, list_objs_pokemon_type, list_objs_type, pokemon_type_id
@@ -181,11 +181,11 @@ def create_is_legendary(pokemon_id, pokemon_name, list_objs_is_legendary):
 
 def assing_all_boolean_tables(aux_class, list_objs_has_gender, list_objs_is_legendary, 
                               list_objs_has_mega_evolution):
-    if aux_class.has_gender == 'True':
+    if aux_class.has_gender == 1:
         list_objs_has_gender = create_has_gender(aux_class.id, aux_class.name, list_objs_has_gender)
-    if aux_class.is_legendary == 'True':
+    if aux_class.is_legendary == 1:
         list_objs_is_legendary = create_is_legendary(aux_class.id, aux_class.name, list_objs_is_legendary)
-    if aux_class.has_mega_evolution == 'True':
+    if aux_class.has_mega_evolution == 1:
         list_objs_has_mega_evolution = create_has_mega_evolution(aux_class.id, aux_class.name, list_objs_has_mega_evolution)
     return list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution
 
@@ -220,7 +220,7 @@ def save_data_file():
 def creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, 
                 list_objs_is_legendary, list_objs_has_mega_evolution):
 
-    with open("list_objs_pokemon.bin","ab") as file:
+    with open("data/list_objs_pokemon.bin","ab") as file:
         for pokemon in list_objs_pokemon:
             file.write(struct.pack("i", pokemon.id))
             file.write(pokemon.name.encode("utf-8"))
@@ -243,29 +243,64 @@ def creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, lis
             file.write(pokemon.body_style.encode("utf-8"))
             for id_pokemon_type in pokemon.id_pokemon_type:
                 file.write(struct.pack("i", id_pokemon_type))
+        file.close()
 
-    with open("list_objs_has_gender.bin","ab") as file:
+    with open("data/list_objs_has_gender.bin","ab") as file:
         for has_gender in list_objs_has_gender:
-            file.write(struct.pack("i", has_gender.id_pokemon))
+            file.write(struct.pack("i", int(has_gender.id_pokemon)))
             file.write(has_gender.pokemon_name.encode("utf-8"))
+        file.close()
 
 
-def read_arq_has_gender(arq):
+    with open("data/list_objs_has_mega_evolution.bin", "ab") as file:
+        for has_mega_evolution in list_objs_has_mega_evolution:
+            file.write(struct.pack("i", has_mega_evolution.id_pokemon))
+            file.write(has_mega_evolution.pokemon_name.encode("utf-8"))
+        file.close()
+
+    
+    with open("data/list_objs_is_legendary.bin", "ab") as file:
+        for is_legendary in list_objs_is_legendary:
+            file.write(struct.pack("i", is_legendary.id_pokemon))
+            file.write(is_legendary.pokemon_name.encode("utf-8"))
+        file.close()
+
+
+    with open("data/list_objs_pokemon_type.bin", "ab") as file:
+        for pokemon_type in list_objs_pokemon_type:
+            file.write(struct.pack("i", pokemon_type.id))
+            file.write(struct.pack("i", pokemon_type.id_pokemon))
+            file.write(struct.pack("i", pokemon_type.id_type))
+            file.write(struct.pack("i", pokemon_type.relation))
+        file.close()
+
+
+    with open("data/list_objs_type.bin", "ab") as file:
+        for type in list_objs_type:
+            file.write(struct.pack("i", type.id))
+            file.write(type.name.encode("utf-8"))
+            for id_pokemon_type in type.id_pokemon_type:
+                file.write(struct.pack("i", id_pokemon_type))
+        file.close()
+
+
+def read_booleans_arqs(arq):
     with open (arq, 'rb') as file:
-        file.seek(54*80)
-        my_number_back = struct.unpack('i', file.read(4))[0]
-        text = ''
+        file.seek(54*5)
+        id = struct.unpack('i', file.read(4))[0]
+        print(id)
+        pokemon_name = ''
         i = 0
         while i < 50:
             temp = struct.unpack('c', file.read(1))[0]
             temp = temp.decode('utf-8')
-            text = text + temp
+            pokemon_name = pokemon_name + temp
             i += 1
-        print(text)
+        print(pokemon_name)
 
 
 def read_arq_pokemons():
-    with open ('list_objs_pokemon.bin', 'rb') as file:
+    with open ('data/list_objs_pokemon.bin', 'rb') as file:
         file.seek(230*633)
 
         id = struct.unpack('i', file.read(4))[0]
@@ -331,3 +366,32 @@ def read_arq_pokemons():
             list_of_ids_pokemon_type.append(id_pokemon_type)
             i = i+1
         print(list_of_ids_pokemon_type)
+
+def read_arq_pokemon_types():
+    with open ('data/list_objs_pokemon_type.bin', 'rb') as file:
+        file.seek(16*1000)
+        id = struct.unpack('i', file.read(4))[0]
+        id_pokemon = struct.unpack('i', file.read(4))[0]
+        id_type = struct.unpack('i', file.read(4))[0]
+        relation = struct.unpack('i', file.read(4))[0]
+        print(id, id_pokemon, id_type, relation)
+
+def read_arq_types():
+    with open ('data/list_objs_type.bin', 'rb') as file:
+        file.seek(1054*21)
+        id = struct.unpack('i', file.read(4))[0]
+        name = ''
+        i = 0
+        while i < 50:
+            temp = struct.unpack('c', file.read(1))[0]
+            temp = temp.decode('utf-8')
+            name = name + temp
+            i += 1
+        i = 0
+        list_ids_pokemon_type = []
+        while i < 250:
+            id_pokemon_type = struct.unpack('i', file.read(4))[0]
+            list_ids_pokemon_type.append(id_pokemon_type)
+            i = i + 1
+        
+        print(id, name, list_ids_pokemon_type)
