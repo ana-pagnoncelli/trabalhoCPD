@@ -19,4 +19,10 @@ class PokemonType:
         self.relation = relation
 
     def __repr__(self):
-        return " /id: " + str(self.id) + " /id poke: " + str(self.id_pokemon) + " /id type: " + str(self.id_type) + " /relation: " + self.relation + "\n"
+        if self.relation == 0:
+            relation_name = 'Egg Group'
+        else:
+            relation_name = 'Type'
+        return "\nPokemon Type \n\nid: {id} \nId pokemon: {id_pokemon} \nId type: {id_type}\
+                \nRelation: {relation}\n".format(id=self.id, id_pokemon=self.id_pokemon,
+                id_type=self.id_type, relation=relation_name)

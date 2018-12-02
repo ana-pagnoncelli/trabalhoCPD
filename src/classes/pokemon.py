@@ -59,16 +59,31 @@ class Pokemon:
 
         #prints the class
     def __repr__(self):
-        return "\nId: {id}  \nName: {name} \nTotal: {total} \nHp: {hp} \nAttack: {attack} \
+        
+        if self.is_legendary == 1:
+            is_leg_name = 'True'
+        else:
+            is_leg_name = 'False'
+        if self.has_gender == 1:
+            has_gender_name = 'True'
+        else:
+            has_gender_name = 'False'
+        if self.has_mega_evolution == 1:
+            mega_evolution_name = 'True'
+        else:
+            mega_evolution_name = 'False'
+
+        return "Pokemon\n\nId: {id}  \nName: {name} \nTotal: {total} \nHp: {hp} \nAttack: {attack} \
                 \nDefense: {defense} \nAttack Speed: {sp_attack} \nDefense Speed:{sp_defense}\
                 \nSpeed: {speed} \nGeneration: {generation} \nLegendary: {is_legendary}\
                 \nColor: {color} \nHas Gender: {has_gender} \nPercentage of being male: {pr_male}\
                 \nHas mega evolution: {has_mega_evolution} \nHeight: {height}\
-                \nWeight: {weight} \nCatch Rate: {catch_rate} \nBody Style: {body_style}"\
+                \nWeight: {weight} \nCatch Rate: {catch_rate} \nBody Style: {body_style}\
+                \nId Pokemon Type: {id_pokemon_type}"\
                 .format(id=self.id, name=self.name, total=self.total, hp=self.hp,
                 attack=self.attack, defense=self.defense, sp_attack=self.sp_attack,
                 sp_defense=self.sp_defense, speed=self.speed, generation=self.generation,
-                is_legendary=self.is_legendary, color=self.color, has_gender=self.has_gender,
-                pr_male=self.pr_male, has_mega_evolution=self.has_mega_evolution,
+                is_legendary=is_leg_name, color=self.color, has_gender=has_gender_name,
+                pr_male=self.pr_male, has_mega_evolution=mega_evolution_name,
                 height=self.height, weight=self.weight, catch_rate=self.catch_rate,
-                body_style=self.body_style)
+                body_style=self.body_style, id_pokemon_type=self.id_pokemon_type)

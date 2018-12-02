@@ -18,4 +18,9 @@ class Type:
         self.id_pokemon_type = id_pokemon_type
 
     def __repr__(self):
-        return "id " + str(self.id) + " name " + self.name + "array: " + str(self.id_pokemon_type)
+        new_list_of_ids = []
+        for i in range(len(self.id_pokemon_type)):
+            if self.id_pokemon_type[i] != 0:
+                new_list_of_ids.append(self.id_pokemon_type[i])
+        return "\nType\n\nId: {id} \nName: {name} \nArray: {id_pokemon_type}"\
+                .format(id=self.id, name=self.name, id_pokemon_type=new_list_of_ids)
