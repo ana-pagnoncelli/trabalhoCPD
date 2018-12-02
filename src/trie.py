@@ -69,15 +69,15 @@ def runTrie(list_objs_pokemon):
 		for i in range(len(list_objs_pokemon)):		# Cria uma Trie
 			insereTrie(raiz, list_objs_pokemon[i].name.strip(), list_objs_pokemon[i].id)
 
-		with open('trie.data', 'wb') as file:
+		with open('data/trie.bin', 'wb') as file:
 			pickle.dump(raiz, file)
 		file.close()
 
-	name = input("Informe um nome de pokemon: ")
-	id = buscaTrie(raiz, name.lower())
-	if id == -1:
-		print("Erro!")
-	else:
-		print(list_objs_pokemon[id - 1])
+	# name = input("Informe um nome de pokemon: ")
+	# id = buscaTrie(raiz, name.lower())
+	# if id == -1:
+	# 	print("Erro!")
+	# else:
+	# 	print(list_objs_pokemon[id - 1])
 
 	return raiz

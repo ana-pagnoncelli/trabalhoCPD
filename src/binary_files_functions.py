@@ -7,6 +7,7 @@ import struct
 import encodings, os
 from encodings import aliases
 import base64
+from src.utils import *
 
 def creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, 
                 list_objs_is_legendary, list_objs_has_mega_evolution):
@@ -95,56 +96,58 @@ def read_booleans_arqs(arq):
 def read_arq_pokemons(id):
     with open ('data/list_objs_pokemon.bin', 'rb') as file:
         file.seek(230*(id-1))
+        try:
+            id = struct.unpack('i', file.read(4))[0]
+            name = ''
+            i = 0
+            while i < 50:
+                temp = struct.unpack('c', file.read(1))[0]
+                temp = temp.decode('utf-8')
+                name = name + temp
+                i += 1
+            total = struct.unpack('i', file.read(4))[0]        
+            hp = struct.unpack('i', file.read(4))[0] 
+            defense = struct.unpack('i', file.read(4))[0] 
+            attack = struct.unpack('i', file.read(4))[0] 
+            sp_defense = struct.unpack('i', file.read(4))[0] 
+            sp_attack = struct.unpack('i', file.read(4))[0] 
+            speed = struct.unpack('i', file.read(4))[0] 
+            generation = struct.unpack('i', file.read(4))[0] 
+            is_legendary = struct.unpack('i', file.read(4))[0] 
+            color = ''
+            i = 0
+            while i < 50:
+                temp = struct.unpack('c', file.read(1))[0]
+                temp = temp.decode('utf-8')
+                color = color + temp
+                i += 1
+            has_gender = struct.unpack('i', file.read(4))[0] 
+            pr_male = struct.unpack('f', file.read(4))[0] 
+            has_mega_evolution = struct.unpack('i', file.read(4))[0] 
+            height = struct.unpack('f', file.read(4))[0] 
+            weight = struct.unpack('f', file.read(4))[0] 
+            catch_rate = struct.unpack('f', file.read(4))[0] 
+            body_style = ''
+            i = 0
+            while i < 50:
+                temp = struct.unpack('c', file.read(1))[0]
+                temp = temp.decode('utf-8')
+                body_style = body_style + temp
+                i += 1
+            i = 0
+            list_of_ids_pokemon_type = []
+            while i < 4:
+                id_pokemon_type = struct.unpack('i', file.read(4))[0]
+                list_of_ids_pokemon_type.append(id_pokemon_type)
+                i = i+1
 
-        id = struct.unpack('i', file.read(4))[0]
-        name = ''
-        i = 0
-        while i < 50:
-            temp = struct.unpack('c', file.read(1))[0]
-            temp = temp.decode('utf-8')
-            name = name + temp
-            i += 1
-        total = struct.unpack('i', file.read(4))[0]        
-        hp = struct.unpack('i', file.read(4))[0] 
-        defense = struct.unpack('i', file.read(4))[0] 
-        attack = struct.unpack('i', file.read(4))[0] 
-        sp_defense = struct.unpack('i', file.read(4))[0] 
-        sp_attack = struct.unpack('i', file.read(4))[0] 
-        speed = struct.unpack('i', file.read(4))[0] 
-        generation = struct.unpack('i', file.read(4))[0] 
-        is_legendary = struct.unpack('i', file.read(4))[0] 
-        color = ''
-        i = 0
-        while i < 50:
-            temp = struct.unpack('c', file.read(1))[0]
-            temp = temp.decode('utf-8')
-            color = color + temp
-            i += 1
-        has_gender = struct.unpack('i', file.read(4))[0] 
-        pr_male = struct.unpack('f', file.read(4))[0] 
-        has_mega_evolution = struct.unpack('i', file.read(4))[0] 
-        height = struct.unpack('f', file.read(4))[0] 
-        weight = struct.unpack('f', file.read(4))[0] 
-        catch_rate = struct.unpack('f', file.read(4))[0] 
-        body_style = ''
-        i = 0
-        while i < 50:
-            temp = struct.unpack('c', file.read(1))[0]
-            temp = temp.decode('utf-8')
-            body_style = body_style + temp
-            i += 1
-        i = 0
-        list_of_ids_pokemon_type = []
-        while i < 4:
-            id_pokemon_type = struct.unpack('i', file.read(4))[0]
-            list_of_ids_pokemon_type.append(id_pokemon_type)
-            i = i+1
-
-        pokemon = Pokemon(id, name, total, hp, attack, defense, sp_attack, sp_defense,
-                            speed, generation, is_legendary, color, has_gender, pr_male,
-                            has_mega_evolution, height, weight, catch_rate, body_style, 
-                            list_of_ids_pokemon_type)      
-        return pokemon
+            pokemon = Pokemon(id, name, total, hp, attack, defense, sp_attack, sp_defense,
+                                speed, generation, is_legendary, color, has_gender, pr_male,
+                                has_mega_evolution, height, weight, catch_rate, body_style, 
+                                list_of_ids_pokemon_type)
+            return pokemon
+        except:
+            return -1      
 
 def read_arq_pokemon_types(id):
     with open ('data/list_objs_pokemon_type.bin', 'rb') as file:
@@ -153,9 +156,7 @@ def read_arq_pokemon_types(id):
         id_pokemon = struct.unpack('i', file.read(4))[0]
         id_type = struct.unpack('i', file.read(4))[0]
         relation = struct.unpack('i', file.read(4))[0]
-        print(id, id_pokemon, id_type, relation)
         pokemon_type = PokemonType(id, id_pokemon, id_type, relation)
-        print(pokemon_type)
         return pokemon_type
 
 def read_arq_types(id):
@@ -178,3 +179,32 @@ def read_arq_types(id):
         
         type = Type(id, name, list_ids_pokemon_type)
         return type
+
+def find_type_by_name(type_name):
+    with open ('data/list_objs_type.bin', 'rb') as file:
+        name = ''
+        fail = 0
+        while(remove_spaces(name) != type_name):
+            try:
+                id = struct.unpack('i', file.read(4))[0]
+                name = ''
+                i = 0
+                while i < 50:
+                    temp = struct.unpack('c', file.read(1))[0]
+                    temp = temp.decode('utf-8')
+                    name = name + temp
+                    i += 1
+                i = 0
+                list_ids_pokemon_type = []
+                while i < 250:
+                    id_pokemon_type = struct.unpack('i', file.read(4))[0]
+                    list_ids_pokemon_type.append(id_pokemon_type)
+                    i = i + 1
+            except:
+                fail = 1
+                break
+        if fail:
+            return 0
+        else:
+            return Type(id, name, list_ids_pokemon_type)
+        
