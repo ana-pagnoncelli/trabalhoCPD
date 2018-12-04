@@ -51,7 +51,6 @@ def buscaTrie(raiz, pokemon):
 			break
 
 	if achou and node.value != -1:
-		print("Achou")
 		return node.value
 	else:
 		print("Elemento inexistente")
