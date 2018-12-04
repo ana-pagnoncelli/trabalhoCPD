@@ -69,7 +69,7 @@ def excluiTrie(raiz, pokemon, i=0):
 			achou = False
 			break
 
-	if achou:
+	if achou and node.value != -1:
 		node.value = -1
 	else:
 		print("Elemento inexistente")
