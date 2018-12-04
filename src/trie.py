@@ -56,14 +56,8 @@ def buscaTrie(raiz, pokemon):
 		print("Elemento inexistente")
 		return -1
 
-def runTrie(list_objs_pokemon):
-
-	try:
-		with open('trie.data', 'rb') as file:
-			raiz = pickle.load(file)
-		file.close()
-
-	except:
+def runTrie(list_objs_pokemon, flag):
+	if flag:
 		raiz = Trie()
 
 		for i in range(len(list_objs_pokemon)):		# Cria uma Trie
@@ -72,12 +66,10 @@ def runTrie(list_objs_pokemon):
 		with open('data/trie.bin', 'wb') as file:
 			pickle.dump(raiz, file)
 		file.close()
+	else:
+		with open('data/trie.bin', 'rb') as file:
+			raiz = pickle.load(file)
+		file.close()
 
-	# name = input("Informe um nome de pokemon: ")
-	# id = buscaTrie(raiz, name.lower())
-	# if id == -1:
-	# 	print("Erro!")
-	# else:
-	# 	print(list_objs_pokemon[id - 1])
 
 	return raiz

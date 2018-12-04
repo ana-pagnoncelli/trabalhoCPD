@@ -1,3 +1,5 @@
+from src.utils import remove_spaces
+
 """
 Pokemon:
     Contains all the details of a pokemon.
@@ -86,4 +88,4 @@ class Pokemon:
                 is_legendary=is_leg_name, color=self.color, has_gender=has_gender_name,
                 pr_male=self.pr_male, has_mega_evolution=mega_evolution_name,
                 height=self.height, weight=self.weight, catch_rate=self.catch_rate,
-                body_style=self.body_style, id_pokemon_type=self.id_pokemon_type)
+                body_style=remove_spaces(self.body_style), id_pokemon_type=self.id_pokemon_type)

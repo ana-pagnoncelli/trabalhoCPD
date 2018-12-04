@@ -8,9 +8,14 @@ import os
 
 
 if __name__ == "__main__":
-    list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution = save_data_file()
-    creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution)
-    raiz_trie = runTrie(list_objs_pokemon)
+    operacao = menu_de_criacao_arquivos()
+    list_objs_pokemon = []
+    flag = 0
+    if operacao == 1:
+        flag = 1
+        list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution = save_data_file()
+        creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution)
+    raiz_trie = runTrie(list_objs_pokemon, flag)
     operacao = 1
     while(operacao == 1):
         operacao = menu_de_operacoes()
@@ -78,12 +83,43 @@ if __name__ == "__main__":
             operacao = menu_nova_operacao()
 
         
+        if operacao == 6:
+            clear()
+            has_pokemon = 1
+            pokemon = 1
+            x = 1
+            while has_pokemon:
+                if pokemon != -1:
+                    pokemon = read_arq_pokemons(x)
+                    if pokemon != -1:
+                        print(pokemon)
+                else:
+                    has_pokemon = 0
+                x = x + 1
+            operacao = menu_nova_operacao()
+
+
+        if operacao == 7:
+            clear()
+            try:
+                with open("data/list_objs_pokemon.bin","rb") as file:
+                    numero_pokemon = struct.unpack('i', file.read(4))[0]
+                    print(numero_pokemon)
+                file.close()
+                pokemon = 1
+                while numero_pokemon>0:
+                    if pokemon != -1:
+                        pokemon = read_arq_pokemons(numero_pokemon)
+                        if pokemon != -1:
+                            print(pokemon)
+                    else:
+                        numero_pokemon = 0
+                    numero_pokemon = numero_pokemon - 1
+            except:
+                print("\nOperação Inválida!\n")
+            operacao = menu_nova_operacao()            
+
+
+
         
-    
-    # print(id)
-    # list_of_pokemons_names = read_booleans_arqs("data/list_objs_has_mega_evolution.bin")
-    # for name in list_of_pokemons_names:
-    #     print_string(name)
-    # pokemon = read_arq_pokemons(8)
-    # pokemon_type = read_arq_pokemon_types(8)
-    # type = read_arq_types(2)
+

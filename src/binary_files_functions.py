@@ -13,6 +13,7 @@ def creating_arqs(list_objs_pokemon_type, list_objs_type, list_objs_pokemon, lis
                 list_objs_is_legendary, list_objs_has_mega_evolution):
 
     with open("data/list_objs_pokemon.bin","wb") as file:
+        file.write(struct.pack("i", len(list_objs_pokemon))) #cabeçalho, mostra quantos pokemons vao ter
         for pokemon in list_objs_pokemon:
             file.write(struct.pack("i", pokemon.id))
             file.write(pokemon.name.encode("utf-8"))
@@ -95,7 +96,7 @@ def read_booleans_arqs(arq):
 
 def read_arq_pokemons(id):
     with open ('data/list_objs_pokemon.bin', 'rb') as file:
-        file.seek(230*(id-1))
+        file.seek((230*(id-1)) + 4)
         try:
             id = struct.unpack('i', file.read(4))[0]
             name = ''
