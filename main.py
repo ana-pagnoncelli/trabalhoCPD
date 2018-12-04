@@ -5,6 +5,7 @@ from src.trie import *
 from src.utils import *
 from src.radix import *
 import os
+from src.functions import *
 
 
 if __name__ == "__main__":
@@ -104,7 +105,6 @@ if __name__ == "__main__":
             try:
                 with open("data/list_objs_pokemon.bin","rb") as file:
                     numero_pokemon = struct.unpack('i', file.read(4))[0]
-                    print(numero_pokemon)
                 file.close()
                 pokemon = 1
                 while numero_pokemon>0:
@@ -117,7 +117,9 @@ if __name__ == "__main__":
                     numero_pokemon = numero_pokemon - 1
             except:
                 print("\nOperação Inválida!\n")
-            operacao = menu_nova_operacao()            
+            informacoes_novo_pokemon()
+            operacao = menu_nova_operacao()
+
 
 
 

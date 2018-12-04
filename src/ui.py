@@ -1,4 +1,5 @@
 from src.utils import clear
+import struct
 
 def menu_de_operacoes():
     clear()
@@ -10,6 +11,7 @@ def menu_de_operacoes():
     print("5 - Retornar todos os pokemons que tem gênero.")
     print("6 - Retornar todos os pokemons por ordem crescente de id.")
     print("7 - Retornar todos os pokemons por ordem decrescente de id.")
+    print("8 - Adicionar novo pokemon.")
     print("9 - Sair")
     operation = -1
     while operation == -1:
