@@ -4,6 +4,8 @@ def radix_sort(array):
         for word in array:
             if len(word) >= limite:
                 digit = ord(word[limite-1]) - ord('a')
+                if digit < 0:
+                    digit = 0
             else:
                 digit = 0
             buckets[digit].append(word)
