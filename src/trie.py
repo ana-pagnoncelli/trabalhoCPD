@@ -38,7 +38,7 @@ def insereTrie(raiz, pokemon, n_pok):
 	else:
 		node.value = n_pok
 
-
+		
 def buscaTrie(raiz, pokemon):
 	node = raiz
 	achou = True
@@ -50,13 +50,33 @@ def buscaTrie(raiz, pokemon):
 			achou = False
 			break
 
-	if achou:
+	if achou and node.value != -1:
 		return node.value
 	else:
 		print("Elemento inexistente")
 		return -1
 
+
+def excluiTrie(raiz, pokemon, i=0):
+	node = raiz
+	achou = True
+
+	for id, char in enumerate(pokemon):
+		if char in node.children:
+			node = node.children[char]
+		else:
+			achou = False
+			break
+
+	if achou and node.value != -1:
+		node.value = -1
+	else:
+		print("Elemento inexistente")
+
+		
+
 def runTrie(list_objs_pokemon, flag):
+	
 	if flag:
 		raiz = Trie()
 
