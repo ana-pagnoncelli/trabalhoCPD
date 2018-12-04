@@ -2,7 +2,10 @@ from src.binary_files_functions import *
 from src.reading_data import *
 from src.ui import *
 from src.trie import *
+from src.utils import *
+from src.radix import *
 import os
+
 
 if __name__ == "__main__":
     list_objs_pokemon_type, list_objs_type, list_objs_pokemon, list_objs_has_gender, list_objs_is_legendary, list_objs_has_mega_evolution = save_data_file()
@@ -24,18 +27,57 @@ if __name__ == "__main__":
             clear()
             type_name = input("Informe o nome do tipo:")
             type = find_type_by_name(type_name)
+            x = 0
+            list_pokemons = []
             if type:
                 list_ids_pokemon_type = remove_zeros_from_array(type.id_pokemon_type)
                 for id_pokemon_type in list_ids_pokemon_type:
                     pokemon_type = read_arq_pokemon_types(id_pokemon_type)
                     pokemon = read_arq_pokemons(pokemon_type.id_pokemon)
-                    if pokemon_type.relation == 0:
-                        print(pokemon.name, 'Egg Group')
-                    else:
-                        print(pokemon.name, 'Type')
+                    list_pokemons.append(remove_spaces(pokemon.name))
+                    x = x + 1
             else:
                 print('Tipo inválido!')
+            ordenated_list = radix_sort(list_pokemons)
+            for pokemon in ordenated_list:
+                print(pokemon)
+            print("\nExistem " + str(x) + " pokemons de " + type_name + "\n")
             operacao = menu_nova_operacao()
+
+        if operacao == 3:
+            clear()
+            list_of_pokemons_names = read_booleans_arqs("data/list_objs_is_legendary.bin")
+            ordenated_list = radix_sort(list_of_pokemons_names)
+            x = 0
+            for pokemon_name in ordenated_list:
+                print(pokemon_name)
+                x = x + 1
+            print("\nExistem " + str(x) + " pokemons lendários.\n")
+            operacao = menu_nova_operacao()
+
+        if operacao == 5:
+            clear()
+            list_of_pokemons_names = read_booleans_arqs("data/list_objs_has_gender.bin")
+            ordenated_list = radix_sort(list_of_pokemons_names)
+            x = 0
+            for pokemon_name in ordenated_list:
+                print(pokemon_name)
+                x = x + 1
+            print("\nExistem " + str(x) + " pokemons que tem genero.\n")
+            operacao = menu_nova_operacao()
+        
+        if operacao == 4:
+            clear()
+            list_of_pokemons_names = read_booleans_arqs("data/list_objs_has_mega_evolution.bin")
+            ordenated_list = radix_sort(list_of_pokemons_names)
+            x = 0
+            for pokemon_name in list_of_pokemons_names:
+                print(pokemon_name)
+                x = x + 1
+            print("\nExistem " + str(x) + " pokemons que tem mega evolução.\n")
+            operacao = menu_nova_operacao()
+
+        
         
     
     # print(id)
