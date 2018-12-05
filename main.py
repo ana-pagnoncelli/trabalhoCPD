@@ -7,8 +7,6 @@ from src.radix import *
 from src.functionss import *
 import os
 
-
-
 if __name__ == "__main__":
     operacao = menu_de_criacao_arquivos()
     list_objs_pokemon = []
@@ -108,6 +106,7 @@ if __name__ == "__main__":
                 with open("data/list_objs_pokemon.bin","rb") as file:
                     numero_pokemon = struct.unpack('i', file.read(4))[0]
                 file.close()
+                numero_pokemon = numero_pokemon-1
                 pokemon = 1
                 while numero_pokemon>0:
                     if pokemon != -1:
@@ -130,6 +129,11 @@ if __name__ == "__main__":
             print(pokemon)
             excluiTrie(raiz_trie, pokemon.name)
             insereTrie(raiz_trie, pokemon.name, pokemon.id)
+        
+        if operacao == 8:
+            clear()
+            pokeName, pokeId = informacoes_novo_pokemon()
+            insereTrie(raiz_trie, pokeName.strip(), pokeId)
             operacao = menu_nova_operacao()
 
 
