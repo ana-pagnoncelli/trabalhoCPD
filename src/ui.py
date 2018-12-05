@@ -4,14 +4,14 @@ import struct
 def menu_de_operacoes():
     clear()
     print("\nDigite o número da operação desejada:")
-    print("1 - Achar um pokemon específico através do nome.")
-    print("2 - Dado o nome de um determinado tipo, retornar os pokemons feitos do mesmo.")
-    print("3 - Retornar todos os pokemon lendários.")
-    print("4 - Retornar todos os pokemons que tem mega evolução.")
-    print("5 - Retornar todos os pokemons que tem gênero.")
-    print("6 - Retornar todos os pokemons por ordem crescente de id.")
-    print("7 - Retornar todos os pokemons por ordem decrescente de id.")
-    print("8 - Adicionar novo pokemon.")
+    print("1 - Pesquisar Pokémon pelo Nome")
+    print("2 - Listar todos os Pokémons de um Tipo")
+    print("3 - Listar todos os Pokémons Lendários")
+    print("4 - Listar todos os Pokémons com Mega Evolução")
+    print("5 - Listar todos os Pokémons com Gênero")
+    print("6 - Listar todos os pokemons em ordem crescente de ID")
+    print("7 - Retornar todos os pokemons em ordem decrescente de ID")
+    print("8 - Adicionar novo Pokémon")
     print("9 - Sair")
     operation = -1
     while operation == -1:
