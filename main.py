@@ -117,7 +117,12 @@ if __name__ == "__main__":
                     numero_pokemon = numero_pokemon - 1
             except:
                 print("\nOperação Inválida!\n")
-            informacoes_novo_pokemon()
+            operacao = menu_nova_operacao()
+        
+        if operacao == 8:
+            clear()
+            pokeName, pokeId = informacoes_novo_pokemon()
+            insereTrie(raiz_trie, pokeName.strip(), pokeId)
             operacao = menu_nova_operacao()
 
 

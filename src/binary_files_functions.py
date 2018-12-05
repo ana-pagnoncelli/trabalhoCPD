@@ -185,7 +185,7 @@ def find_type_by_name(type_name):
     with open ('data/list_objs_type.bin', 'rb') as file:
         name = ''
         fail = 0
-        while(remove_spaces(name) != type_name):
+        while(remove_spaces(name) != remove_spaces(type_name)):
             try:
                 id = struct.unpack('i', file.read(4))[0]
                 name = ''
