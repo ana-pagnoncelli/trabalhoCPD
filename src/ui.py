@@ -12,7 +12,8 @@ def menu_de_operacoes():
     print("6 - Listar todos os pokemons em ordem crescente de ID")
     print("7 - Retornar todos os pokemons em ordem decrescente de ID")
     print("8 - Adicionar novo Pokémon")
-    print("9 - Sair")
+    print("9 - Remover Pokemon")
+    print("10 - Sair")
     operation = -1
     while operation == -1:
         try:

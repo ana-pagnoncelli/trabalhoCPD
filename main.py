@@ -4,8 +4,9 @@ from src.ui import *
 from src.trie import *
 from src.utils import *
 from src.radix import *
+from src.functionss import *
 import os
-from src.functions import *
+
 
 
 if __name__ == "__main__":
@@ -24,6 +25,7 @@ if __name__ == "__main__":
             clear()
             pokemon_name = input("Informe o nome do pokemon:")
             id = buscaTrie(raiz_trie, pokemon_name)
+            print(id)
             if id != -1:
                 pokemon = read_arq_pokemons(id)
                 print(pokemon)
@@ -117,7 +119,17 @@ if __name__ == "__main__":
                     numero_pokemon = numero_pokemon - 1
             except:
                 print("\nOperação Inválida!\n")
-            informacoes_novo_pokemon()
+            operacao = menu_nova_operacao()
+
+        if operacao == 9:
+            pokemon_name = input("Informe o nome do pokemon que deseja remover:")
+            id = buscaTrie(raiz_trie, pokemon_name)
+            name = remove_pokemon(id)
+            excluiTrie(raiz_trie, pokemon_name)
+            pokemon = read_arq_pokemons(id)
+            print(pokemon)
+            excluiTrie(raiz_trie, pokemon.name)
+            insereTrie(raiz_trie, pokemon.name, pokemon.id)
             operacao = menu_nova_operacao()
 
 
